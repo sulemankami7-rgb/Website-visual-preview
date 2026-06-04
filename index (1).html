@@ -1,0 +1,283 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font-sans); }
+  .preview-wrapper { width: 100%; padding: 1rem 0; }
+  .device-switcher { display: flex; gap: 8px; margin-bottom: 1rem; align-items: center; }
+  .dev-btn { padding: 6px 16px; font-size: 13px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; cursor: pointer; color: var(--color-text-secondary); transition: all 0.2s; }
+  .dev-btn.active { background: var(--color-background-secondary); color: var(--color-text-primary); border-color: var(--color-border-primary); font-weight: 500; }
+  .screen-frame { border: 1.5px solid var(--color-border-primary); border-radius: 12px; overflow: hidden; background: var(--color-background-primary); transition: all 0.3s ease; margin: 0 auto; }
+  .screen-frame.desktop { width: 100%; max-width: 680px; }
+  .screen-frame.mobile { width: 320px; max-width: 320px; border-radius: 24px; border-width: 3px; }
+  .size-label { font-size: 12px; color: var(--color-text-tertiary); text-align: center; margin-top: 8px; }
+
+  /* NAV */
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); }
+  .nav-logo { display: flex; align-items: center; gap: 8px; }
+  .logo-icon { width: 28px; height: 28px; background: #8B4513; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+  .logo-text { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .logo-sub { font-size: 10px; color: var(--color-text-secondary); }
+  .nav-links { display: flex; gap: 12px; }
+  .nav-link { font-size: 11px; color: var(--color-text-secondary); cursor: pointer; padding: 3px 6px; border-radius: 4px; }
+  .nav-link:hover { color: var(--color-text-primary); background: var(--color-background-secondary); }
+  .nav-actions { display: flex; gap: 6px; align-items: center; }
+  .btn-signin { font-size: 11px; padding: 4px 10px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: transparent; cursor: pointer; color: var(--color-text-primary); }
+  .btn-order { font-size: 11px; padding: 4px 10px; border-radius: var(--border-radius-md); background: #8B4513; border: none; cursor: pointer; color: #fff; }
+  .theme-dot { width: 16px; height: 16px; border-radius: 50%; border: 0.5px solid var(--color-border-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+  /* HERO */
+  .hero { padding: 20px 16px 16px; background: linear-gradient(135deg, #3d1a08 0%, #6b2d0d 100%); position: relative; overflow: hidden; }
+  .hero-badge { font-size: 10px; background: rgba(255,255,255,0.15); color: #ffd9b0; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-bottom: 8px; border: 0.5px solid rgba(255,255,255,0.2); }
+  .hero-title { font-size: 20px; font-weight: 500; color: #fff; line-height: 1.3; margin-bottom: 6px; }
+  .hero-sub { font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 14px; line-height: 1.5; }
+  .hero-btns { display: flex; gap: 8px; }
+  .hero-btn-primary { font-size: 11px; padding: 7px 14px; background: #D4A017; border: none; border-radius: var(--border-radius-md); color: #3d1a08; font-weight: 500; cursor: pointer; }
+  .hero-btn-outline { font-size: 11px; padding: 7px 14px; border: 1px solid rgba(255,255,255,0.4); border-radius: var(--border-radius-md); color: #fff; background: transparent; cursor: pointer; }
+  .hero-wood-art { position: absolute; right: -10px; top: 0; bottom: 0; width: 120px; opacity: 0.15; }
+
+  /* SKILLS */
+  .section { padding: 14px 16px; }
+  .section-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .skill-card { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 8px; text-align: center; }
+  .skill-icon { font-size: 18px; color: #8B4513; margin-bottom: 4px; }
+  .skill-name { font-size: 10px; font-weight: 500; color: var(--color-text-primary); }
+  .skill-desc { font-size: 9px; color: var(--color-text-secondary); margin-top: 2px; }
+
+  /* ORDER PANEL */
+  .order-panel { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px; margin: 0 16px 14px; }
+  .order-title { font-size: 12px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .order-badge { font-size: 9px; background: #D4A017; color: #3d1a08; padding: 2px 7px; border-radius: 10px; }
+  .order-row { display: flex; gap: 8px; margin-bottom: 6px; }
+  .order-input { flex: 1; font-size: 11px; padding: 5px 8px; border: 0.5px solid var(--color-border-secondary); border-radius: 6px; background: var(--color-background-primary); color: var(--color-text-primary); }
+  .order-select { flex: 1; font-size: 11px; padding: 5px 8px; border: 0.5px solid var(--color-border-secondary); border-radius: 6px; background: var(--color-background-primary); color: var(--color-text-primary); }
+  .order-submit { width: 100%; font-size: 11px; padding: 7px; background: #8B4513; border: none; border-radius: var(--border-radius-md); color: #fff; cursor: pointer; margin-top: 4px; }
+
+  /* GALLERY */
+  .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .gallery-item { background: var(--color-background-secondary); border-radius: var(--border-radius-md); aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border: 0.5px solid var(--color-border-tertiary); flex-direction: column; gap: 4px; overflow: hidden; position: relative; }
+  .gallery-item svg { opacity: 0.4; }
+  .gallery-label { font-size: 9px; color: var(--color-text-tertiary); }
+  .gallery-plus { font-size: 18px; color: var(--color-text-tertiary); }
+
+  /* PAGES NAV */
+  .pages-nav { display: flex; gap: 6px; overflow-x: auto; padding: 0 16px 12px; scrollbar-width: none; }
+  .page-chip { white-space: nowrap; font-size: 10px; padding: 4px 10px; border-radius: 20px; border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-secondary); cursor: pointer; }
+  .page-chip.active { background: #8B4513; color: #fff; border-color: #8B4513; }
+
+  /* FOOTER */
+  .footer { padding: 10px 16px; border-top: 0.5px solid var(--color-border-tertiary); display: flex; justify-content: space-between; align-items: center; }
+  .footer-text { font-size: 9px; color: var(--color-text-tertiary); }
+  .footer-links { display: flex; gap: 10px; }
+  .footer-link { font-size: 9px; color: var(--color-text-secondary); }
+
+  /* THEME BAR */
+  .theme-bar { display: flex; gap: 6px; align-items: center; padding: 8px 16px; background: var(--color-background-secondary); border-top: 0.5px solid var(--color-border-tertiary); }
+  .theme-label { font-size: 10px; color: var(--color-text-secondary); }
+  .theme-pill { font-size: 9px; padding: 3px 8px; border-radius: 10px; border: 0.5px solid var(--color-border-secondary); cursor: pointer; color: var(--color-text-secondary); }
+  .theme-pill.active { background: #8B4513; color: #fff; border-color: #8B4513; }
+
+  /* MOBILE ADJUSTMENTS */
+  .mobile .hero-title { font-size: 15px; }
+  .mobile .hero-wood-art { display: none; }
+  .mobile .skills-grid { grid-template-columns: repeat(2, 1fr); }
+  .mobile .nav-links { display: none; }
+  .mobile .logo-sub { display: none; }
+  .mobile .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .mobile .hero-btns { flex-direction: column; gap: 5px; }
+</style>
+
+<h2 class="sr-only">WoodCraft website visual preview — desktop and mobile layout with navbar, hero, skills, order panel, and gallery sections</h2>
+
+<div class="preview-wrapper">
+  <div class="device-switcher">
+    <i class="ti ti-device-desktop" aria-hidden="true" style="font-size:16px; color: var(--color-text-secondary)"></i>
+    <button class="dev-btn active" id="btn-desktop" onclick="switchDevice('desktop')">Desktop — 1280px</button>
+    <i class="ti ti-device-mobile" aria-hidden="true" style="font-size:16px; color: var(--color-text-secondary)"></i>
+    <button class="dev-btn" id="btn-mobile" onclick="switchDevice('mobile')">Mobile — 375px</button>
+  </div>
+
+  <div class="screen-frame desktop" id="screen">
+
+    <!-- NAVBAR -->
+    <nav class="nav">
+      <div class="nav-logo">
+        <div class="logo-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 13 L8 3 L14 13 Z" fill="#fff" opacity="0.9"/><rect x="4" y="9" width="8" height="1.5" rx="0.5" fill="#D4A017"/></svg>
+        </div>
+        <div>
+          <div class="logo-text">WoodCraft</div>
+          <div class="logo-sub">Artisan Carpentry</div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <span class="nav-link">Home</span>
+        <span class="nav-link">About</span>
+        <span class="nav-link">Services</span>
+        <span class="nav-link">Gallery</span>
+        <span class="nav-link">Contact</span>
+        <span class="nav-link">Settings</span>
+      </div>
+      <div class="nav-actions">
+        <button class="btn-signin">Sign In</button>
+        <button class="btn-order">Order Now</button>
+      </div>
+    </nav>
+
+    <!-- PAGES NAV (mobile-style tabs) -->
+    <div class="pages-nav">
+      <span class="page-chip active">Home</span>
+      <span class="page-chip">Our Work</span>
+      <span class="page-chip">Order</span>
+      <span class="page-chip">Gallery</span>
+      <span class="page-chip">About</span>
+      <span class="page-chip">Contact</span>
+      <span class="page-chip">Settings</span>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-badge">✦ Premium Wooden Work</div>
+      <div class="hero-title">Handcrafted with<br>Skill & Passion</div>
+      <div class="hero-sub">Custom furniture, cabinets, doors & more —<br>built by skilled artisans for your home.</div>
+      <div class="hero-btns">
+        <button class="hero-btn-primary">Place an Order</button>
+        <button class="hero-btn-outline">View Gallery</button>
+      </div>
+      <svg class="hero-wood-art" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="10" width="80" height="180" rx="8" fill="#fff"/>
+        <rect x="30" y="30" width="60" height="8" rx="2" fill="#8B4513"/>
+        <rect x="30" y="50" width="60" height="8" rx="2" fill="#8B4513"/>
+        <rect x="30" y="70" width="40" height="8" rx="2" fill="#8B4513"/>
+        <circle cx="60" cy="130" r="25" fill="#D4A017"/>
+      </svg>
+    </div>
+
+    <!-- SKILLS SECTION -->
+    <div class="section">
+      <div class="section-title">
+        <i class="ti ti-tools" aria-hidden="true" style="color:#8B4513; font-size:15px"></i>
+        Our Skills & Services
+      </div>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-icon"><i class="ti ti-armchair" aria-hidden="true"></i></div>
+          <div class="skill-name">Furniture</div>
+          <div class="skill-desc">Custom chairs, tables & sofas</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon"><i class="ti ti-door" aria-hidden="true"></i></div>
+          <div class="skill-name">Doors & Windows</div>
+          <div class="skill-desc">Traditional & modern designs</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon"><i class="ti ti-wall" aria-hidden="true"></i></div>
+          <div class="skill-name">Cabinets</div>
+          <div class="skill-desc">Kitchen & wardrobe cabinets</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon"><i class="ti ti-ruler" aria-hidden="true"></i></div>
+          <div class="skill-name">Flooring</div>
+          <div class="skill-desc">Hardwood floor installation</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon"><i class="ti ti-stars" aria-hidden="true"></i></div>
+          <div class="skill-name">Carving</div>
+          <div class="skill-desc">Decorative wood art & carving</div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-icon"><i class="ti ti-refresh" aria-hidden="true"></i></div>
+          <div class="skill-name">Restoration</div>
+          <div class="skill-desc">Repair & restore old wood</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDER PANEL -->
+    <div class="order-panel">
+      <div class="order-title">
+        <i class="ti ti-clipboard-list" aria-hidden="true" style="color:#8B4513; font-size:14px"></i>
+        Place Your Order
+        <span class="order-badge">Important</span>
+      </div>
+      <div class="order-row">
+        <input class="order-input" placeholder="Your name" readonly />
+        <input class="order-input" placeholder="Phone number" readonly />
+      </div>
+      <div class="order-row">
+        <select class="order-select">
+          <option>Select service type</option>
+          <option>Furniture</option>
+          <option>Doors</option>
+          <option>Cabinets</option>
+        </select>
+        <input class="order-input" placeholder="Estimated budget" readonly />
+      </div>
+      <input class="order-input" style="width:100%; margin-bottom:6px" placeholder="Describe your project..." readonly />
+      <button class="order-submit">Submit Order Request <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+    </div>
+
+    <!-- GALLERY -->
+    <div class="section">
+      <div class="section-title">
+        <i class="ti ti-photo" aria-hidden="true" style="color:#8B4513; font-size:15px"></i>
+        Work Gallery
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <i class="ti ti-armchair" aria-hidden="true" style="font-size:22px; color:#8B4513; opacity:0.5"></i>
+          <div class="gallery-label">Furniture</div>
+        </div>
+        <div class="gallery-item">
+          <i class="ti ti-door" aria-hidden="true" style="font-size:22px; color:#8B4513; opacity:0.5"></i>
+          <div class="gallery-label">Doors</div>
+        </div>
+        <div class="gallery-item">
+          <i class="ti ti-plus" aria-hidden="true" style="font-size:22px; color: var(--color-text-tertiary)"></i>
+          <div class="gallery-label">Add Photo</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THEME BAR -->
+    <div class="theme-bar">
+      <i class="ti ti-palette" aria-hidden="true" style="font-size:13px; color: var(--color-text-secondary)"></i>
+      <span class="theme-label">Theme:</span>
+      <span class="theme-pill active">Light</span>
+      <span class="theme-pill">Dark</span>
+      <span class="theme-pill">Warm Wood</span>
+      <span class="theme-pill">Classic</span>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="footer-text">© 2025 WoodCraft Artisan Carpentry — demo.woodcraft.pk</div>
+      <div class="footer-links">
+        <span class="footer-link">Contact Us</span>
+        <span class="footer-link">About</span>
+        <span class="footer-link">Privacy</span>
+      </div>
+    </div>
+
+  </div>
+  <div class="size-label" id="size-label">Desktop view — 1280 × 900px (preview scaled)</div>
+</div>
+
+<script>
+function switchDevice(mode) {
+  const screen = document.getElementById('screen');
+  const label = document.getElementById('size-label');
+  const btnD = document.getElementById('btn-desktop');
+  const btnM = document.getElementById('btn-mobile');
+  if (mode === 'mobile') {
+    screen.className = 'screen-frame mobile';
+    label.textContent = 'Mobile view — 375 × 812px (iPhone standard)';
+    btnM.classList.add('active');
+    btnD.classList.remove('active');
+  } else {
+    screen.className = 'screen-frame desktop';
+    label.textContent = 'Desktop view — 1280 × 900px (preview scaled)';
+    btnD.classList.add('active');
+    btnM.classList.remove('active');
+  }
+}
+</script>
